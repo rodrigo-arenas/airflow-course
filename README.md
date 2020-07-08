@@ -26,7 +26,7 @@ mkdir dags
     ```
 ### 4. move files to dag folder
 ```
-cp dags/hello_world.py /home/usr/airflow/dags
+cp dags/*.py /home/usr/airflow/dags
 ```
 
 ### 5. Start the scheduler and webserver
