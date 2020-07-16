@@ -20,7 +20,7 @@ airflow initdb
     ```
     cd airflow
     ```
-### 4.Create dag and data_pipelines folder  
+### 4.Create dags and data_pipelines folder  
 ```
 cd airflow
 mkdir dags
@@ -33,7 +33,7 @@ mkdir data_pipelines
     ```
 ### 5. move files to dag and data_pipelines folder
 ```
-cp dags/*.py /home/usr/airflow/dags
+cp dags/*.py /home/$USER/airflow/dags
 cp data_pipelines/*.py /home/$USER/airflow/data_pipelines
 ```
 
