@@ -21,7 +21,7 @@ default_args = {
     "owner": "airflow"
 }
 
-with DAG(dag_id="twitter_dag", schedule_interval="@daily", default_args=default_args) as dag:
+with DAG(dag_id="twitter_dag", schedule_interval="@daily", default_args=default_args, catchup=False) as dag:
     waiting_for_tweets = FileSensor(task_id="waiting_for_tweets",
                                     fs_conn_id="fs_tweet",
                                     filepath='data.csv',
@@ -39,3 +39,5 @@ with DAG(dag_id="twitter_dag", schedule_interval="@daily", default_args=default_
                                       database='airflow_demo',
                                       sql="COPY tweets FROM '/tmp/data_cleaned.csv' WITH ("
                                           "FORMAT csv, HEADER TRUE, DELIMITER ',', ENCODING 'LATIN1');")
+
+    waiting_for_tweets >> fetching_tweets >> cleaning_tweets >> [storing_tweets, loading_tweets]
