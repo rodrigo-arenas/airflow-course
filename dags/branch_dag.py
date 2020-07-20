@@ -16,7 +16,7 @@ default_args = {
 
 
 def get_activated_jobs():
-    request = "SELECT * FROM dag"
+    request = "SELECT * FROM public.dag"
     postgres_hook = PostgresHook(postgres_conn_id="psql_airflow_mdb",
                                  schema="airflow_mdb")  # This connection must be set from the Connection view in Airflow UI
     connection = postgres_hook.get_conn()  # Gets the connection from MySqlHook
@@ -24,15 +24,15 @@ def get_activated_jobs():
     cursor.execute(request)  # Executes the request
     jobs = cursor.fetchall()  # Fetchs all the data from the executed request
     for job in jobs:  # Does a simple print of each source to show that the hook works well
-        if not job[1]:
+        if not job[1] and job[0] != 'branch_dag':
             return job[0]
-        return None
+    return None
 
 
 def jobs_to_use(**kwargs):
     ti = kwargs['ti']
     job = ti.xcom_pull(task_ids='hook_task')
-    print("job fetch from XCOM: {}".format(job))
+    print("dag fetch from XCOM: {}".format(job))
     return job
 
 
