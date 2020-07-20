@@ -16,7 +16,7 @@ default_args = {
 # Read the table jobs to fetch the data and return the name of first source having its column "activated" sets to true
 # No need to call xcom_push here since we use the keyword "return" which has the same effect.
 def get_activated_jobs():
-    request = "SELECT * FROM job"
+    request = "SELECT * FROM dag"
     postgres_hook = PostgresHook(postgres_conn_id="psql_airflow_mdb",
                                  schema="airflow_mdb")  # This connection must be set from the Connection view in Airflow UI
     connection = postgres_hook.get_conn()  # Gets the connection from MySqlHook
@@ -24,7 +24,7 @@ def get_activated_jobs():
     cursor.execute(request)  # Executes the request
     jobs = cursor.fetchall()  # Fetchs all the data from the executed request
     for job in jobs:  # Does a simple print of each source to show that the hook works well
-        return job[1]
+        return job[0]
 
 
 def jobs_to_use(**kwargs):
